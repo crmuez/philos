@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:18:40 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/10 20:19:51 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:28:56 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,22 @@
 # include <stdio.h>
 # include <stddef.h>
 # include <sys/stat.h>
-# include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/time.h>
+# include <fcntl.h>
 # include <pthread.h>
+
+# define FORK "has taken a fork"
+# define EATING "is eating"
+# define SLEEPING "is sleeping"
+# define THINKING "is thinking"
+# define DIED "died"
+
+typedef struct s_timeval
+{
+	time_t		tv_sec;
+	suseconds_t	tv_usec;
+}				t_timeval;
 
 typedef struct s_table
 {
@@ -32,6 +45,7 @@ typedef struct s_table
 	long			n_meals;
 	long			death;
 	pthread_mutex_t	print;
+	long			start_time;
 }					t_table;
 
 typedef struct s_philos
@@ -42,6 +56,7 @@ typedef struct s_philos
 	pthread_mutex_t	l_fork;
 	pthread_mutex_t	r_fork;
 	long			meals_done;
+	long			last_meal;
 }					t_philos;
 
 /* UTILS */
@@ -53,5 +68,6 @@ int	ft_atol(char *str);
 /* INIT */
 void	init_table(char **argv, t_table **table);
 void	init_philo(t_philos **philos, t_table *table);
+long	timeset(void);
 
 #endif
