@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:18:40 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/12 16:32:07 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:30:29 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_philos
 
 /* UTILS */
 int		input_checker(char **argv);
-int		ft_atol(char *str);
+long	ft_atol(char *str);
 int		waiting(t_philos philo, long time);
 
 /* INIT */

@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:07:12 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/12 16:33:20 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:52:53 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	philo_eat(t_philos philo)
 	printf("%lu %ld %s\n", philo.table->start_time, philo.id, FORK);
 if (check_grim_reaper(philo) == -1)
 		return (0);
-	philo.last_meal = timeset;
+	philo.last_meal = timeset();
 	printf("%lu %ld %s\n", philo.table->start_time, philo.id, EATING);
 	pthread_mutex_unlock(&philo.table->print);
 	waiting(philo, philo.table->time_to_eat);
@@ -57,6 +57,7 @@ if (check_grim_reaper(philo) == -1)
 
 int survival(t_philos philo)
 {
+	write(1, "si\n", 3);
 	philo_eat(philo);
 	if (check_grim_reaper(philo) == -1)
 		return (0);

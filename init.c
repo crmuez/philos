@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:02:16 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/12 16:24:49 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/12 20:45:10 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,24 @@ void	init_table(char **argv, t_table **table)
 	if (!(*table))
 		print_error(3);
 	(*table)->philos = ft_atol(argv[1]);
+	printf("%ld", (*table)->philos);
+	(*table)->forks = malloc (sizeof(pthread_mutex_t) * (*table)->philos);
 	if ((*table)->philos > 200)
 		print_error(1);
 	(*table)->time_to_dead = (ft_atol(argv[2]) * 1000);
 	(*table)->time_to_eat = (ft_atol(argv[3]) * 1000);
 	(*table)->time_to_sleep = (ft_atol(argv[4]) * 1000);
+	(*table)->death = 0;
 	if (argv[5])
 		(*table)->n_meals = ft_atol(argv[5]);
 	else
 		(*table)->n_meals = -1;
-	(*table)->death = 0;
+	pthread_mutex_init(&(*table)->print, NULL);
 	while (i < (*table)->philos)
 	{
-		pthread_mutex_init(&(*table)->forks[i], NULL);
+		pthread_mutex_init(&((*table)->forks[i]), NULL);
 		i++;
 	}
-	pthread_mutex_init(&(*table)->print, NULL);
 }
 
 long	timeset(void)
@@ -93,4 +95,3 @@ int	create_threads(t_table *table, t_philos *philos)
 	}
 	return (0);
 }
-

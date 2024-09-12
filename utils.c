@@ -6,36 +6,30 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:33:11 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/12 16:26:55 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:29:47 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int	ft_atol(char *str)
+long	ft_atol(char *str)
 {
-	long int	n;
-	int			sign;
-	long int	i;
+	int		i;
+	long	n;
 
-	n = 0;
-	sign = 1;
 	i = 0;
-	while ((str[i] <= 13 && str[i] >= 9) || str[i] == 32)
+	n = 0;
+	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
 		i++;
-	if (str[i] == '-')
-		return (-1);
-	else if (str[i] == '+')
-		i++;
-	while (str[i])
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (str[i] >= '0' && str[i] <= '9')
-			n = n * 10 + (str[i]++ - '0');
-		else
-			return (-1);
+		n = ((n * 10) + (str[i] - '0'));
+		i++;
 	}
-	return (n * sign);
+	return (n);
 }
+
 
 int	input_checker(char **argv)
 {
