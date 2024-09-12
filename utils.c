@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:33:11 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/10 15:31:52 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:26:55 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_atol(char *str)
 	return (n * sign);
 }
 
-int	input_checker(char **argv) // devuelve 1 si el arg son números positivos
+int	input_checker(char **argv)
 {
 	int	i;
 	int	j;
@@ -51,10 +51,25 @@ int	input_checker(char **argv) // devuelve 1 si el arg son números positivos
 			while (argv[i][j] == ' ')
 				j++;
 			if ((argv[i][j] < 48 || argv[i][j] > 57))
-				return (0); // mensaje de error
+				print_error(2);
 			j++;
 		}
 		i++;
+	}
+	return (1);
+}
+
+int	waiting(t_philos philo, long time)
+{
+	long	n;
+
+	n = time / 100;
+	while (n > 0)
+	{
+		usleep(100);
+		if (check_grim_reaper(philo) == -1)
+			return (0);
+		n--;
 	}
 	return (1);
 }

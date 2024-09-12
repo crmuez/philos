@@ -1,43 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosopher.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 21:15:52 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/12 15:50:40 by crmunoz-         ###   ########.fr       */
+/*   Created: 2024/09/12 11:24:52 by crmunoz-          #+#    #+#             */
+/*   Updated: 2024/09/12 16:27:01 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int	main(int argc, char **argv)
+int	print_error(int n)
 {
-	t_table		*table;
-	t_philos	*philos;
-	long		i;
-
-	i = 0;
-	if (argc < 5 || argc > 6 || (input_checker(argv) == 0))
-		print_error(2);
-	init_table(argv, &table);
-	init_philo(&philos, table);
-	timeset();
-	while (i < table->philos)
-	{
-		survival(*philos);
-		if (check_grim_reaper(philos[i]) == -1)
-			break;
-		i++;
-	}
-	return (0);
+	if (n == 1)
+		printf("Error: Philosophers can't be more than 200\n");
+	else if (n == 2)
+		printf("Error: invalid arguments\n");
+	else if (n == 3)
+		printf("Error: malloc failed.\n");
+	else if (n == 4)
+		printf("Error: pthread failed.\n");
+	return (-1);
 }
-
-/*
-	- input_checker(argv)
-	
-	init
-	philo_num == 1¿?
-
-*/
