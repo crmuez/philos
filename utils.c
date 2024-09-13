@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:33:11 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/12 19:29:47 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:00:39 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,48 @@ int	input_checker(char **argv)
 			while (argv[i][j] == ' ')
 				j++;
 			if ((argv[i][j] < 48 || argv[i][j] > 57))
-				print_error(2);
+				print_error(2, NULL);
 			j++;
 		}
 		i++;
 	}
+	if (ft_atol(argv[1]) > 200)
+		print_error(1, NULL);
 	return (1);
 }
 
-int	waiting(t_philos philo, long time)
+int	waiting(t_philos *philo, long time)
 {
-	long	n;
+	long	start;
 
-	n = time / 100;
-	while (n > 0)
+	start = timeset();
+	while ((timeset() - start) < time)
 	{
+		//printf("tiempo: %ld\n", timeset() - start);
 		usleep(100);
 		if (check_grim_reaper(philo) == -1)
 			return (0);
-		n--;
 	}
 	return (1);
+}
+
+int	lets_print(t_philos	*philo, long id, char *status)
+{
+	pthread_mutex_lock(&(*philo).table->print);
+	if ((*philo).table->death > 0)
+	{
+		pthread_mutex_unlock(&(*philo).table->print);
+		return (-1);
+	}
+	if ((timeset() - philo->last_meal) > philo->table->time_to_dead)
+	{
+		(*philo).table->death = 1;
+		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, (*philo).id, DIED);
+		pthread_mutex_unlock(&(*philo).table->print);
+		return (-1);
+	}
+	else
+		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, id, status);
+	pthread_mutex_unlock(&(*philo).table->print);
+	return (0);
 }

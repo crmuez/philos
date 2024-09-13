@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:18:40 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/12 19:30:29 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:01:15 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ typedef struct s_philos
 	long			id;
 	pthread_t		thread;
 	t_table			*table;
-	pthread_mutex_t	l_fork;
-	pthread_mutex_t	r_fork;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
 	long			meals_done;
 	long			last_meal;
 }					t_philos;
@@ -62,7 +62,8 @@ typedef struct s_philos
 /* UTILS */
 int		input_checker(char **argv);
 long	ft_atol(char *str);
-int		waiting(t_philos philo, long time);
+int		waiting(t_philos *philo, long time);
+int		lets_print(t_philos	*philo, long id, char *status);
 
 /* INIT */
 void	init_table(char **argv, t_table **table);
@@ -72,13 +73,13 @@ int		join_threads(t_table *table, t_philos *philos);
 int		create_threads(t_table *table, t_philos *philos);
 
 /* LIVING */
-int		philo_sleep(t_philos philo);
-int		philo_think(t_philos philo);
-int		philo_eat(t_philos philo);
-int		survival(t_philos philo);
-int		check_grim_reaper(t_philos	philo);
+int		philo_sleep(t_philos *philo);
+int		philo_think(t_philos *philo);
+int		philo_eat(t_philos *philo);
+int		survival(t_philos *philo);
+int		check_grim_reaper(t_philos	*philo);
 
 /* ERROR */
-int		print_error(int n);
+int		print_error(int n, t_table **array);
 
 #endif
