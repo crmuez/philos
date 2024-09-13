@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:07:12 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/13 15:35:00 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:47:11 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ int	philo_sleep(t_philos *philo)
 {
 	if (check_grim_reaper(philo) == -1)
 		return (0);
-	pthread_mutex_lock(&(*philo).table->print);
-	printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, (*philo).id, SLEEPING);
-	pthread_mutex_unlock(&(*philo).table->print);
+	lets_print(philo, (*philo).id, SLEEPING);
 	waiting(philo, (*philo).table->time_to_sleep);
 	return (1);
 }
@@ -27,9 +25,7 @@ int	philo_think(t_philos *philo)
 {
 	if (check_grim_reaper(philo) == -1)
 		return (-1);
-	pthread_mutex_lock(&(*philo).table->print);
-	printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, (*philo).id, THINKING);
-	pthread_mutex_unlock(&(*philo).table->print);
+	lets_print(philo, (*philo).id, THINKING);
 	if (check_grim_reaper(philo) == -1)
 		return (0);
 	return (1);
@@ -37,17 +33,13 @@ int	philo_think(t_philos *philo)
 int	philo_eat(t_philos *philo)
 {
 	pthread_mutex_lock((*philo).r_fork);
-	pthread_mutex_lock(&(*philo).table->print);
-	printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, (*philo).id, FORK);
-	pthread_mutex_unlock(&(*philo).table->print);
+	lets_print(philo, (*philo).id, FORK);
 	pthread_mutex_lock((*philo).l_fork);
 	if (check_grim_reaper(philo) == -1)
 		return (0);
-	pthread_mutex_lock(&(*philo).table->print);
-	printf("%lu %ld %s\n",timeset() - (*philo).table->start_time, (*philo).id, FORK);
+	lets_print(philo, (*philo).id, FORK);
 	(*philo).last_meal = timeset();
-	printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, (*philo).id, EATING);
-	pthread_mutex_unlock(&(*philo).table->print);
+	lets_print(philo, (*philo).id, EATING);
 	waiting(philo, (*philo).table->time_to_eat);
 	pthread_mutex_unlock((*philo).l_fork);
 	pthread_mutex_unlock((*philo).r_fork);
@@ -79,12 +71,8 @@ int	check_grim_reaper(t_philos	*philo)
 		pthread_mutex_unlock(&(*philo).table->print);
 		return (-1);
 	}
-	//printf("tiempo actual: %ld\n",timeset());
-	//printf("ultima comida: %ld\n",(*philo).last_meal);
-	//printf("tiempo actual menos ult comida:%ld\n", (timeset() - philo->last_meal));
 	if ((timeset() - philo->last_meal) > philo->table->time_to_dead)
 	{
-		write(1, "si\n", 3);
 		(*philo).table->death = 1;
 		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, (*philo).id, DIED);
 		pthread_mutex_unlock(&(*philo).table->print);

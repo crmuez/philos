@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:33:11 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/13 16:00:39 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:30:58 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ int	lets_print(t_philos	*philo, long id, char *status)
 		pthread_mutex_unlock(&(*philo).table->print);
 		return (-1);
 	}
-	else
-		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, id, status);
+	printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, id, status);
 	pthread_mutex_unlock(&(*philo).table->print);
 	return (0);
 }
