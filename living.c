@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:07:12 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/13 16:47:11 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:27:52 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,39 @@ int	philo_sleep(t_philos *philo)
 	return (1);
 }
 
-int	philo_think(t_philos *philo)
-{
-	if (check_grim_reaper(philo) == -1)
-		return (-1);
-	lets_print(philo, (*philo).id, THINKING);
-	if (check_grim_reaper(philo) == -1)
-		return (0);
-	return (1);
-}
-int	philo_eat(t_philos *philo)
+int	philo_fork(t_philos *philo)
 {
 	pthread_mutex_lock((*philo).r_fork);
-	lets_print(philo, (*philo).id, FORK);
+	if (lets_print(philo, (*philo).id, FORK) == -1)
+	{
+		pthread_mutex_unlock((*philo).r_fork);
+		return (0);
+	}
 	pthread_mutex_lock((*philo).l_fork);
 	if (check_grim_reaper(philo) == -1)
+	{
+		pthread_mutex_unlock((*philo).r_fork);
+		pthread_mutex_unlock((*philo).l_fork);
 		return (0);
-	lets_print(philo, (*philo).id, FORK);
+	}
+	if (lets_print(philo, (*philo).id, FORK) == -1)
+	{
+		pthread_mutex_unlock((*philo).r_fork);
+		pthread_mutex_unlock((*philo).l_fork);
+		return (0);
+	}
+	return (1);
+}
+
+int	philo_eat(t_philos *philo)
+{
 	(*philo).last_meal = timeset();
-	lets_print(philo, (*philo).id, EATING);
+	if (lets_print(philo, (*philo).id, EATING) == -1)
+	{
+		pthread_mutex_unlock((*philo).r_fork);
+		pthread_mutex_unlock((*philo).l_fork);
+		return (0);
+	}
 	waiting(philo, (*philo).table->time_to_eat);
 	pthread_mutex_unlock((*philo).l_fork);
 	pthread_mutex_unlock((*philo).r_fork);
@@ -47,13 +61,15 @@ int	philo_eat(t_philos *philo)
 	return (1);
 }
 
-int survival(t_philos *philo)
+int	survival(t_philos *philo)
 {
 	philo->last_meal = philo->table->start_time;
 	if (philo->id % 2 == 0)
 		philo_sleep(philo);
 	while (1 + 1 != 7)
 	{
+		if (philo_fork(philo) == 0)
+			return (0);
 		if (philo_eat(philo) == 0)
 			return (0);
 		if (check_grim_reaper(philo) == -1)
@@ -74,7 +90,8 @@ int	check_grim_reaper(t_philos	*philo)
 	if ((timeset() - philo->last_meal) > philo->table->time_to_dead)
 	{
 		(*philo).table->death = 1;
-		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, (*philo).id, DIED);
+		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time,
+			(*philo).id, DIED);
 		pthread_mutex_unlock(&(*philo).table->print);
 		return (-1);
 	}

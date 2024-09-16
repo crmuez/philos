@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:33:11 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/13 16:30:58 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:22:56 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ long	ft_atol(char *str)
 	}
 	return (n);
 }
-
 
 int	input_checker(char **argv)
 {
@@ -62,7 +61,6 @@ int	waiting(t_philos *philo, long time)
 	start = timeset();
 	while ((timeset() - start) < time)
 	{
-		//printf("tiempo: %ld\n", timeset() - start);
 		usleep(100);
 		if (check_grim_reaper(philo) == -1)
 			return (0);
@@ -81,11 +79,28 @@ int	lets_print(t_philos	*philo, long id, char *status)
 	if ((timeset() - philo->last_meal) > philo->table->time_to_dead)
 	{
 		(*philo).table->death = 1;
-		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, (*philo).id, DIED);
+		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time,
+			(*philo).id, DIED);
 		pthread_mutex_unlock(&(*philo).table->print);
 		return (-1);
 	}
 	printf("%lu %ld %s\n", timeset() - (*philo).table->start_time, id, status);
 	pthread_mutex_unlock(&(*philo).table->print);
 	return (0);
+}
+
+int	print_error(int n, t_table **array)
+{
+	if (n == 1)
+		printf("Error: Philosophers can't be more than 200\n");
+	else if (n == 2)
+		printf("Error: invalid arguments\n");
+	else if (n == 3)
+	{
+		printf("Error: malloc failed.\n");
+		free(array);
+	}
+	else if (n == 4)
+		printf("Error: pthread failed.\n");
+	return (-1);
 }

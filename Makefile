@@ -6,7 +6,7 @@
 #    By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/10 16:00:58 by crmunoz-          #+#    #+#              #
-#    Updated: 2024/09/12 19:23:53 by crmunoz-         ###   ########.fr        #
+#    Updated: 2024/09/16 14:21:29 by crmunoz-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	:= philo
 CC		:= gcc
 FLAGS	:= -Wall -Wextra -Werror -lpthread -g
 
-SRCS	:= philosopher.c utils.c init.c error.c living.c
+SRCS	:= philosopher.c utils.c init.c living.c
 OBJS	:= $(SRCS:.c=.o)
 .c.o:
 	${CC} ${FLAGS} -c $< -o ${<:.c=.o}

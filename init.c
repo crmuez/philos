@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:02:16 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/13 15:31:16 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:26:47 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_table(char **argv, t_table **table)
 {
-	long i;
+	long	i;
 
 	i = 0;
 	(*table) = malloc(sizeof(t_table));
@@ -23,7 +23,7 @@ void	init_table(char **argv, t_table **table)
 	(*table)->philos = ft_atol(argv[1]);
 	(*table)->forks = malloc (sizeof(pthread_mutex_t) * (*table)->philos);
 	if (!(*table)->forks)
-		print_error(3,table);
+		print_error(3, table);
 	(*table)->time_to_dead = ft_atol(argv[2]);
 	(*table)->time_to_eat = ft_atol(argv[3]);
 	(*table)->time_to_sleep = ft_atol(argv[4]);
@@ -42,10 +42,11 @@ void	init_table(char **argv, t_table **table)
 
 long	timeset(void)
 {
-	struct timeval current_time;
-	long	miliseconds;
+	struct timeval	current_time;
+	long			miliseconds;
+
 	gettimeofday(&current_time, NULL);
-	miliseconds = (current_time.tv_sec*1000) + (current_time.tv_usec/1000);
+	miliseconds = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 	return (miliseconds);
 }
 
@@ -60,7 +61,7 @@ void	init_philo(t_philos **philos, t_table *table)
 		print_error(3, NULL);
 		free(*philos);
 	}
-	while(i < (table->philos))
+	while (i < (table->philos))
 	{
 		(*philos)[i].id = i + 1;
 		(*philos)[i].meals_done = 0;
@@ -79,7 +80,8 @@ int	create_threads(t_table *table, t_philos *philos)
 	table->start_time = timeset();
 	while (i < table->philos)
 	{
-		if ((pthread_create(&philos[i].thread, NULL, (void *) &survival, (void *) &philos[i])) != 0)
+		if ((pthread_create(&philos[i].thread, NULL,
+					(void *) &survival, (void *) &philos[i])) != 0)
 			print_error(4, NULL);
 		i++;
 	}
