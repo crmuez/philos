@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:15:52 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/16 14:18:35 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:50:08 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,8 @@ int	main(int argc, char **argv)
 	init_philo(&philos, table);
 	create_threads(table, philos);
 	join_threads(table, philos);
+	free(table->forks);
+	free(philos);
+	free(table);
 	return (0);
 }

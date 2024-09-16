@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:07:12 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/16 14:38:12 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:23:50 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	philo_sleep(t_philos *philo)
 		return (0);
 	lets_print(philo, (*philo).id, SLEEPING);
 	waiting(philo, (*philo).table->time_to_sleep);
+	if (check_grim_reaper(philo) == -1)
+		return (0);
 	return (1);
 }
 
@@ -47,7 +49,6 @@ int	philo_fork(t_philos *philo)
 
 int	philo_eat(t_philos *philo)
 {
-	(*philo).last_meal = timeset();
 	if (lets_print(philo, (*philo).id, EATING) == -1)
 	{
 		pthread_mutex_unlock((*philo).r_fork);
@@ -60,6 +61,7 @@ int	philo_eat(t_philos *philo)
 	(*philo).meals_done++;
 	if ((*philo).meals_done == (*philo).table->n_meals)
 		return (0);
+	(*philo).last_meal = timeset();
 	return (1);
 }
 
@@ -70,6 +72,8 @@ int	survival(t_philos *philo)
 		philo_sleep(philo);
 	while (1 + 1 != 7)
 	{
+		if (check_grim_reaper(philo) == -1)
+			return (0);
 		if (philo_fork(philo) == 0)
 			return (0);
 		if (philo_eat(philo) == 0)
@@ -77,6 +81,8 @@ int	survival(t_philos *philo)
 		if (check_grim_reaper(philo) == -1)
 			return (0);
 		philo_sleep(philo);
+		if (check_grim_reaper(philo) == -1)
+			return (0);
 	}
 	return (1);
 }
