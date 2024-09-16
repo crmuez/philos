@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:07:12 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/16 14:27:52 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:38:12 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	philo_eat(t_philos *philo)
 	pthread_mutex_unlock((*philo).l_fork);
 	pthread_mutex_unlock((*philo).r_fork);
 	(*philo).meals_done++;
+	if ((*philo).meals_done == (*philo).table->n_meals)
+		return (0);
 	return (1);
 }
 
