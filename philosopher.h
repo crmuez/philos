@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:18:40 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/16 17:51:10 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:24:19 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,13 @@ typedef struct s_philos
 /* UTILS */
 int		input_checker(char **argv);
 long	ft_atol(char *str);
-int		waiting(t_philos *philo, long time);
 int		lets_print(t_philos	*philo, long id, char *status);
 int		print_error(int n, t_table **array);
+
+/* UTILS2 */
+int		waiting(t_philos *philo, long time);
+int		check_grim_reaper(t_philos	*philo);
+int		survival(t_philos *philo);
 
 /* INIT */
 void	init_table(char **argv, t_table **table);
@@ -75,8 +79,8 @@ int		create_threads(t_table *table, t_philos *philos);
 
 /* LIVING */
 int		philo_sleep(t_philos *philo);
+int		philo_fork(t_philos *philo);
+int		last_philo_fork(t_philos *philo);
 int		philo_eat(t_philos *philo);
-int		survival(t_philos *philo);
-int		check_grim_reaper(t_philos	*philo);
 
 #endif

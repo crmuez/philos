@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:33:11 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/16 16:26:06 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:35:00 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,6 @@ int	input_checker(char **argv)
 	}
 	if (ft_atol(argv[1]) > 200)
 		print_error(1, NULL);
-	return (1);
-}
-
-int	waiting(t_philos *philo, long time)
-{
-	long	start;
-
-	start = timeset();
-	while ((timeset() - start) < time)
-	{
-		usleep(100);
-		if (check_grim_reaper(philo) == -1)
-			return (0);
-	}
 	return (1);
 }
 
