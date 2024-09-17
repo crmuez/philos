@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:31:23 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/17 16:36:32 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:48:26 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	survival(t_philos *philo)
 			if (philo_fork(philo) == 0)
 				return (0);
 		}
-		keep_survival(philo);
+		if (keep_survival(philo) == 0)
+			return (0);
 	}
 	return (1);
 }
