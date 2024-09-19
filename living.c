@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:07:12 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/17 16:24:58 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:57:09 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	philo_sleep(t_philos *philo)
 	waiting(philo, (*philo).table->time_to_sleep);
 	if (check_grim_reaper(philo) == -1)
 		return (0);
+	printf("%lu %ld %s\n", timeset() - (*philo).table->start_time,
+		(*philo).id, THINKING);
 	return (1);
 }
 

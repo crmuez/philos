@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:31:23 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/19 13:24:29 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:52:15 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ int	survival(t_philos *philo)
 {
 	philo->last_meal = philo->table->start_time;
 	if (philo->id % 2 == 0)
+	{
+		printf("%lu %ld %s\n", timeset() - (*philo).table->start_time,
+			(*philo).id, THINKING);
 		waiting(philo, (*philo).table->time_to_eat);
+	}
 	while (1 + 1 != 7)
 	{
 		if (check_grim_reaper(philo) == -1)
