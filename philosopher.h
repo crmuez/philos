@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 21:18:40 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/17 16:24:19 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:25:49 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int		check_grim_reaper(t_philos	*philo);
 int		survival(t_philos *philo);
 
 /* INIT */
-void	init_table(char **argv, t_table **table);
-void	init_philo(t_philos **philos, t_table *table);
+int		init_table(char **argv, t_table **table);
+int		init_philo(t_philos **philos, t_table *table);
 long	timeset(void);
 int		join_threads(t_table *table, t_philos *philos);
 int		create_threads(t_table *table, t_philos *philos);

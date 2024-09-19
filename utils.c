@@ -6,7 +6,7 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:33:11 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/17 16:35:00 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:24:28 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,16 @@ int	input_checker(char **argv)
 			while (argv[i][j] == ' ')
 				j++;
 			if ((argv[i][j] < 48 || argv[i][j] > 57))
+			{
 				print_error(2, NULL);
+				return (0);
+			}
 			j++;
 		}
 		i++;
 	}
 	if (ft_atol(argv[1]) > 200)
-		print_error(1, NULL);
+		return (print_error(1, NULL));
 	return (1);
 }
 

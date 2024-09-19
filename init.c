@@ -6,24 +6,24 @@
 /*   By: crmunoz- <crmunoz-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 20:02:16 by crmunoz-          #+#    #+#             */
-/*   Updated: 2024/09/17 15:59:29 by crmunoz-         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:25:31 by crmunoz-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	init_table(char **argv, t_table **table)
+int	init_table(char **argv, t_table **table)
 {
 	long	i;
 
 	i = 0;
 	(*table) = malloc(sizeof(t_table));
 	if (!(*table))
-		print_error(3, table);
+		return (print_error(3, table));
 	(*table)->philos = ft_atol(argv[1]);
 	(*table)->forks = malloc (sizeof(pthread_mutex_t) * (*table)->philos);
 	if (!(*table)->forks)
-		print_error(3, table);
+		return (print_error(3, table));
 	(*table)->time_to_dead = ft_atol(argv[2]);
 	(*table)->time_to_eat = ft_atol(argv[3]);
 	(*table)->time_to_sleep = ft_atol(argv[4]);
@@ -38,6 +38,7 @@ void	init_table(char **argv, t_table **table)
 		pthread_mutex_init(&((*table)->forks[i]), NULL);
 		i++;
 	}
+	return (0);
 }
 
 long	timeset(void)
@@ -50,7 +51,7 @@ long	timeset(void)
 	return (miliseconds);
 }
 
-void	init_philo(t_philos **philos, t_table *table)
+int	init_philo(t_philos **philos, t_table *table)
 {
 	long	i;
 
@@ -60,6 +61,7 @@ void	init_philo(t_philos **philos, t_table *table)
 	{
 		print_error(3, NULL);
 		free(*philos);
+		return (0);
 	}
 	while (i < (table->philos))
 	{
@@ -70,6 +72,7 @@ void	init_philo(t_philos **philos, t_table *table)
 		(*philos)[i].l_fork = &table->forks[(i + 1) % table->philos];
 		i++;
 	}
+	return (0);
 }
 
 int	create_threads(t_table *table, t_philos *philos)
@@ -82,7 +85,10 @@ int	create_threads(t_table *table, t_philos *philos)
 	{
 		if ((pthread_create(&philos[i].thread, NULL,
 					(void *) &survival, (void *) &philos[i])) != 0)
+		{
 			print_error(4, NULL);
+			return (0);
+		}
 		i++;
 	}
 	return (0);
@@ -96,7 +102,10 @@ int	join_threads(t_table *table, t_philos *philos)
 	while (i < table->philos)
 	{
 		if (pthread_join(philos[i].thread, NULL) != 0)
+		{
 			print_error(4, NULL);
+			return (0);
+		}
 		i++;
 	}
 	return (0);
